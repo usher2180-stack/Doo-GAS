@@ -1,6 +1,6 @@
 {
   "name": "Lucky Lotto Draw",
   "description": "한 번에 6개의 행운 번호 세트를 생성하는 깔끔한 로또 추첨기입니다. 라이트/다크 모드와 세련된 애니메이션을 지원합니다.",
-  "requestFramePermissions": [],
-  "majorCapabilities": []
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

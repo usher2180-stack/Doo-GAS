@@ -1,6 +1,22 @@
 import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sun, Moon, RefreshCw } from 'lucide-react';
+import { Sun, Moon, RefreshCw, Cloud, CloudRain, CloudLightning, CloudSnow, CloudSun, MapPin, Calendar } from 'lucide-react';
+
+interface WeatherData {
+  temp: number;
+  code: number;
+  city: string;
+}
+
+const WeatherIcon = ({ code }: { code: number }) => {
+  if (code === 0) return <Sun className="w-4 h-4 text-yellow-400" />;
+  if (code <= 3) return <CloudSun className="w-4 h-4 text-blue-300" />;
+  if (code <= 48) return <Cloud className="w-4 h-4 text-neutral-400" />;
+  if (code <= 65 || (code >= 80 && code <= 82)) return <CloudRain className="w-4 h-4 text-blue-500" />;
+  if (code <= 77) return <CloudSnow className="w-4 h-4 text-blue-100" />;
+  if (code >= 95) return <CloudLightning className="w-4 h-4 text-purple-500" />;
+  return <Cloud className="w-4 h-4" />;
+};
 
 const LottoBall = ({ number, delay, isDarkMode }: { number: number; delay: number; isDarkMode: boolean }) => {
   return (
@@ -49,10 +65,40 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [lottoSets, setLottoSets] = useState<number[][]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setIsDarkMode(prefersDark);
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000 * 60);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const fetchWeather = async (lat: number, lon: number) => {
+      try {
+        const [weatherRes, geoRes] = await Promise.all([
+          fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`),
+          fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=ko`)
+        ]);
+        const weatherData = await weatherRes.json();
+        const geoData = await geoRes.json();
+        
+        setWeather({
+          temp: Math.round(weatherData.current_weather.temperature),
+          code: weatherData.current_weather.weathercode,
+          city: geoData.locality || geoData.city || '알 수 없는 위치'
+        });
+      } catch (err) {
+        console.error('Failed to fetch weather/location', err);
+      }
+    };
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => fetchWeather(pos.coords.latitude, pos.coords.longitude),
+        () => console.warn('Geolocation access denied')
+      );
+    }
   }, []);
 
   const generateLottoNumbers = () => {
@@ -95,6 +141,41 @@ export default function App() {
         <span className="absolute top-8 left-1/2 -translate-x-1/2 text-[10px] font-black tracking-[0.3em] opacity-40 uppercase">
           {isDarkMode ? 'IMMERSIVE DARK' : 'IMMERSIVE LIGHT'}
         </span>
+
+        {/* Info Widget */}
+        <div className="absolute top-6 right-6 md:top-10 md:right-10 flex flex-col items-end gap-2 z-50">
+          <div className="flex items-center gap-3 bg-white/5 dark:bg-white/5 backdrop-blur-xl border border-black/5 dark:border-white/10 px-4 py-2 rounded-2xl shadow-sm overflow-hidden">
+            <div className="flex flex-col items-end">
+              <div className="flex items-center gap-2 text-[11px] font-bold opacity-80">
+                <Calendar className="w-3 h-3 text-blue-500" />
+                <span>{currentTime.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'short' })}</span>
+              </div>
+              <div className="text-[10px] opacity-50 font-mono tracking-tighter">
+                {currentTime.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })}
+              </div>
+            </div>
+            <div className="w-[1px] h-6 bg-black/10 dark:bg-white/10 mx-1" />
+            <div className="flex flex-col items-end">
+              {weather ? (
+                <>
+                  <div className="flex items-center gap-2 text-[11px] font-bold opacity-80">
+                    <WeatherIcon code={weather.code} />
+                    <span>{weather.temp}°C</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-[9px] opacity-60 font-medium">
+                    <MapPin className="w-2.5 h-2.5 text-red-400" />
+                    <span className="truncate max-w-[80px]">{weather.city}</span>
+                  </div>
+                </>
+              ) : (
+                <div className="animate-pulse flex flex-col items-end gap-1">
+                  <div className="w-12 h-3 bg-neutral-400/20 rounded" />
+                  <div className="w-16 h-2 bg-neutral-400/10 rounded" />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
 
         {/* Header */}
         <header className="w-full max-w-5xl px-8 py-16 md:py-24 flex flex-col items-center z-10">
