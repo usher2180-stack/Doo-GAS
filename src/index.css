@@ -13,28 +13,28 @@
 }
 
 .immersive-dark-bg {
-  background: radial-gradient(circle at 30% 30%, #1E293B 0%, #0F172A 100%);
+  background: radial-gradient(circle at 30% 30%, #064e3b 0%, #022c22 100%);
 }
 
 .immersive-light-bg {
-  background: #F8FAFC;
+  background: #ecfdf5;
 }
 
 .ball-dark {
-  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
 }
 
 .ball-light {
-  background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
-  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.2);
+  background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+  box-shadow: 0 8px 20px rgba(52, 211, 153, 0.2);
 }
 
 .glow-effect {
   position: absolute;
   width: 300px;
   height: 300px;
-  background: rgba(59, 130, 246, 0.1);
+  background: rgba(16, 185, 129, 0.1);
   filter: blur(100px);
   border-radius: 50%;
   pointer-events: none;

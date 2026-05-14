@@ -179,8 +179,8 @@ export default function App() {
 
         {/* Header */}
         <header className="w-full max-w-5xl px-8 py-16 md:py-24 flex flex-col items-center z-10">
-          <div className="text-3xl md:text-5xl font-black tracking-[-0.04em] mb-4">LOTTO DREAM</div>
-          <div className="h-1 w-12 bg-blue-500 rounded-full mb-12" />
+          <div className="text-3xl md:text-5xl font-black tracking-[-0.04em] mb-4">인생한방 인생역전</div>
+          <div className="h-1 w-12 bg-emerald-500 rounded-full mb-12" />
         </header>
 
         {/* Action Section */}
@@ -222,7 +222,7 @@ export default function App() {
 
         {/* Footer */}
         <footer className="w-full max-w-4xl px-8 py-20 mt-auto border-t border-black/5 dark:border-white/5 opacity-40 text-center">
-          <div className="text-[12px] font-bold tracking-widest uppercase mb-4 text-blue-500">RECENT ANALYSIS</div>
+          <div className="text-[12px] font-bold tracking-widest uppercase mb-4 text-emerald-500">RECENT ANALYSIS</div>
           <div className="space-y-4 max-w-xs mx-auto">
             <div className="flex justify-between text-[11px] font-mono border-b border-black/5 dark:border-white/5 pb-2">
               <span>제 1121회</span>
@@ -233,7 +233,7 @@ export default function App() {
               <span className="font-bold">11 15 20 25 33 41</span>
             </div>
           </div>
-          <p className="mt-12 text-[10px] tracking-tight">© 2026 LOTTO DREAM CO. ALL RIGHTS RESERVED.</p>
+          <p className="mt-12 text-[10px] tracking-tight">© 2026 인생한방 인생역전. ALL RIGHTS RESERVED.</p>
         </footer>
       </div>
     </div>
