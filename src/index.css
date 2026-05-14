@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Inter', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply font-sans antialiased transition-colors duration-300;
+  }
+}
+
+.immersive-dark-bg {
+  background: radial-gradient(circle at 30% 30%, #1E293B 0%, #0F172A 100%);
+}
+
+.immersive-light-bg {
+  background: #F8FAFC;
+}
+
+.ball-dark {
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+.ball-light {
+  background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.2);
+}
+
+.glow-effect {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: rgba(59, 130, 246, 0.1);
+  filter: blur(100px);
+  border-radius: 50%;
+  pointer-events: none;
+}
